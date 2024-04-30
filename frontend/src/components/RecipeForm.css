@@ -1,0 +1,15 @@
+.recipe-form-container {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.recipe-input,
+.recipe-textarea,
+.recipe-submit-btn {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.recipe-textarea {
+  height: 100px; /* Adjust height as needed */
+}

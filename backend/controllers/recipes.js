@@ -1,8 +1,8 @@
-// controllers/recipes.js
+// controllers/recipeController.js
+
 const { v4: uuidv4 } = require('uuid');
 const supabase = require('../supabase');
 
-// Get all recipes
 async function getAllRecipes(req, res) {
   try {
     const { data, error } = await supabase.from('recipes').select('*');
@@ -13,7 +13,6 @@ async function getAllRecipes(req, res) {
   }
 }
 
-// Get recipe by ID
 async function getRecipeById(req, res) {
   const { id } = req.params;
   try {
@@ -30,7 +29,6 @@ async function getRecipeById(req, res) {
   }
 }
 
-// Create a new recipe
 async function createRecipe(req, res) {
   const { title, description, ingredients, instructions } = req.body;
   try {
@@ -44,28 +42,14 @@ async function createRecipe(req, res) {
   }
 }
 
-// Update recipe by ID (including upvote)
 async function updateRecipe(req, res) {
   const { id } = req.params;
+  const { title, description, ingredients, instructions, upvotes } = req.body;
   try {
-    // Get the existing recipe
-    const { data: existingRecipe, error: fetchError } = await supabase
-      .from('recipes')
-      .select('*')
-      .eq('id', id)
-      .single();
-    if (fetchError) throw fetchError;
-    if (!existingRecipe) return res.status(404).json({ error: 'Recipe not found' });
-
-    // Increment the upvote count
-    const upvoteCount = (existingRecipe.upvotes || 0) + 1;
-
-    // Update the recipe with the new upvote count
     const { data: updatedRecipe, error: updateError } = await supabase
       .from('recipes')
-      .update({ upvotes: upvoteCount })
+      .update({ title, description, ingredients, instructions, upvotes })
       .eq('id', id);
-
     if (updateError) throw updateError;
     res.json(updatedRecipe[0]);
   } catch (error) {
@@ -74,7 +58,6 @@ async function updateRecipe(req, res) {
   }
 }
 
-// Delete recipe by ID
 async function deleteRecipe(req, res) {
   const { id } = req.params;
   try {
@@ -86,10 +69,26 @@ async function deleteRecipe(req, res) {
   }
 }
 
+async function addComment(req, res) {
+  const { id } = req.params;
+  const { comment } = req.body;
+  try {
+    const { data, error } = await supabase
+      .from('comments')
+      .insert([{ recipe_id: id, text: comment }]);
+    if (error) throw error;
+    res.status(201).json({ comment: data[0] });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error adding comment' });
+  }
+}
+
 module.exports = {
   getAllRecipes,
   getRecipeById,
   createRecipe,
   updateRecipe,
   deleteRecipe,
+  addComment,
 };

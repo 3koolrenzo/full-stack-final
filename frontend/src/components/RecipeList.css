@@ -1,0 +1,56 @@
+.recipe-list-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.search-input {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.recipe-list {
+  list-style: none;
+  padding: 0;
+}
+
+.recipe-item {
+  margin-bottom: 30px;
+  padding: 20px;
+  border: 1px solid #ccc; /* Add border around recipe items */
+  border-radius: 5px; /* Add border radius for rounded corners */
+}
+
+.ingredient-list,
+.instruction-list {
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+
+.comment-input {
+  width: 70%;
+  margin-bottom: 10px;
+}
+
+.add-comment-btn {
+  margin-left: 10px;
+}
+
+.comment-list {
+  margin-top: 10px;
+  padding-left: 20px;
+}
+
+.delete-btn,
+.update-link {
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
+.update-link {
+  text-decoration: none;
+  color: #007bff;
+}
+
+.update-link:hover {
+  text-decoration: underline;
+}

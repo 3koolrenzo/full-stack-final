@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import recipeService from '../services/api';
+import './RecipeForm.css'; // Import your CSS file for styling
 
 const RecipeForm = () => {
   const [title, setTitle] = useState('');
@@ -30,14 +31,14 @@ const RecipeForm = () => {
   };
 
   return (
-    <div>
+    <div className="recipe-form-container">
       <h2>Add New Recipe</h2>
       <form onSubmit={handleSubmit}>
-        <input type="text" placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} required />
-        <textarea placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} required />
-        <textarea placeholder="Ingredients (one ingredient per line)" value={ingredients} onChange={(e) => setIngredients(e.target.value)} required />
-        <textarea placeholder="Instructions (one step per line)" value={instructions} onChange={(e) => setInstructions(e.target.value)} required />
-        <button type="submit">Add Recipe</button>
+        <input type="text" className="recipe-input" placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} required />
+        <textarea className="recipe-textarea" placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} required />
+        <textarea className="recipe-textarea" placeholder="Ingredients (one ingredient per line)" value={ingredients} onChange={(e) => setIngredients(e.target.value)} required />
+        <textarea className="recipe-textarea" placeholder="Instructions (one step per line)" value={instructions} onChange={(e) => setInstructions(e.target.value)} required />
+        <button type="submit" className="recipe-submit-btn">Add Recipe</button>
       </form>
     </div>
   );

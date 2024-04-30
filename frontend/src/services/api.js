@@ -27,6 +27,14 @@ const recipeService = {
       throw new Error('Error creating recipe');
     }
   },
+  updateRecipe: async (recipeId, updatedRecipeData) => {
+    try {
+      const response = await api.put(`/recipes/${recipeId}`, updatedRecipeData);
+      return response.data;
+    } catch (error) {
+      throw new Error('Error updating recipe');
+    }
+  },
   deleteRecipe: async (recipeId) => {
     try {
       await api.delete(`/recipes/${recipeId}`);
