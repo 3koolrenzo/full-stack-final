@@ -1,3 +1,5 @@
+/* RecipeList.css */
+
 .recipe-list-container {
   max-width: 800px;
   margin: 0 auto;
@@ -53,4 +55,17 @@
 
 .update-link:hover {
   text-decoration: underline;
+}
+
+.upvote-container {
+  display: flex;
+  align-items: center;
+}
+
+.upvote-btn {
+  margin-right: 5px;
+}
+
+.upvote-count {
+  margin-left: 5px;
 }

@@ -1,5 +1,3 @@
-// controllers/recipeController.js
-
 const { v4: uuidv4 } = require('uuid');
 const supabase = require('../supabase');
 
@@ -31,9 +29,10 @@ async function getRecipeById(req, res) {
 
 async function createRecipe(req, res) {
   const { title, description, ingredients, instructions } = req.body;
+  const createdAt = new Date(); // Current timestamp
   try {
     const { data, error } = await supabase.from('recipes').insert([
-      { id: uuidv4(), title, description, ingredients, instructions },
+      { id: uuidv4(), title, description, ingredients, instructions, created_at: createdAt },
     ]);
     if (error) throw error;
     res.status(201).json(data[0]);

@@ -1,4 +1,3 @@
-// src/services/api.js
 import axios from 'axios';
 
 const BASE_URL = 'http://localhost:3000'; // Your backend URL

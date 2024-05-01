@@ -1,5 +1,3 @@
-// RecipeList.js
-
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import recipeService from '../services/api';
@@ -11,6 +9,7 @@ const RecipeList = () => {
   const [commentText, setCommentText] = useState('');
   const [comments, setComments] = useState({});
   const [sortOrder, setSortOrder] = useState('desc');
+  const [sortBy, setSortBy] = useState('likes');
 
   useEffect(() => {
     const fetchRecipes = async () => {
@@ -76,17 +75,33 @@ const RecipeList = () => {
     setSearchTerm(e.target.value);
   };
 
-  const handleSort = () => {
+  const handleSortByLikes = () => {
+    setSortBy('likes');
     setSortOrder(sortOrder === 'desc' ? 'asc' : 'desc');
   };
 
-  const sortedRecipes = recipes.slice().sort((a, b) => {
+  const handleSortByDate = () => {
+    setSortBy('date');
+    setSortOrder(sortOrder === 'desc' ? 'asc' : 'desc');
+  };
+
+  const sortByLikes = (a, b) => {
     if (sortOrder === 'desc') {
       return b.upvotes - a.upvotes;
     } else {
       return a.upvotes - b.upvotes;
     }
-  });
+  };
+
+  const sortByDate = (a, b) => {
+    if (sortOrder === 'desc') {
+      return new Date(b.created_at) - new Date(a.created_at);
+    } else {
+      return new Date(a.created_at) - new Date(b.created_at);
+    }
+  };
+
+  const sortedRecipes = recipes.slice().sort(sortBy === 'likes' ? sortByLikes : sortByDate);
 
   const filteredRecipes = sortedRecipes.filter(recipe => {
     return recipe.title.toLowerCase().includes(searchTerm.toLowerCase());
@@ -102,12 +117,16 @@ const RecipeList = () => {
         onChange={handleSearch} 
         className="search-input"
       />
-      <button onClick={handleSort} className="sort-btn">Sort by Upvotes ({sortOrder === 'desc' ? 'Descending' : 'Ascending'})</button>
+      <div className="sort-buttons">
+        <button onClick={handleSortByLikes} className="sort-btn">Sort by Upvotes ({sortOrder === 'desc' ? 'Descending' : 'Ascending'})</button>
+        <button onClick={handleSortByDate} className="sort-btn">Sort by Date ({sortOrder === 'desc' ? 'Descending' : 'Ascending'})</button>
+      </div>
       <ul className="recipe-list">
         {filteredRecipes.map(recipe => (
           <li key={recipe.id} className="recipe-item">
             <h3>{recipe.title}</h3>
             <p>{recipe.description}</p>
+            <p>Created at: {new Date(recipe.created_at).toLocaleString()}</p>
             <ul className="ingredient-list">
               <li><strong>Ingredients:</strong></li>
               {recipe.ingredients.map((ingredient, index) => (
@@ -130,15 +149,7 @@ const RecipeList = () => {
               />
               <button onClick={() => handleAddComment(recipe.id)} className="add-comment-btn">Add Comment</button>
             </div>
-            <div>
-              <h4>Comments:</h4>
-              <ul className="comment-list">
-                {comments[recipe.id] && comments[recipe.id].map((comment, index) => (
-                  <li key={index}>{comment}</li>
-                ))}
-              </ul>
-            </div>
-            <div>
+            <div className="upvote-container">
               <button onClick={() => handleUpvote(recipe.id)} className="upvote-btn">Upvote</button>
               <span className="upvote-count">{recipe.upvotes}</span>
             </div>
