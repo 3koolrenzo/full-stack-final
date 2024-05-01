@@ -77,3 +77,6 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 # Run the backend first and then the frontend
 In order to see the changes you make on the website. You have to REFRESH the page 
+
+# Here is the link to the website
+https://recipesharingapplm.netlify.app
